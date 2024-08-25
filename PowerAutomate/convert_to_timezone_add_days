@@ -1,0 +1,7 @@
+formatDateTime(
+    addDays(
+        convertTimeZone('{inputDate}', 'UTC', 'AUS Eastern Standard Time'), 
+        {daysToAdd}
+    ),
+    'yyyy-MM-dd'
+)
