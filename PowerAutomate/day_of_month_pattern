@@ -1,3 +1,12 @@
+// last day of Month
+formatDateTime(
+    addDays(
+        startOfMonth(addToTime(utcNow(), 1, 'Month')),
+        -1
+    ),
+    'yyyy-MM-dd'
+)
+
 // 15th of current month
 formatDateTime(
     addDays(
