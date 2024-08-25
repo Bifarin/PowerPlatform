@@ -1,0 +1,28 @@
+// 15th of current month
+formatDateTime(
+    addDays(
+        utcNow(), sub(15, int(formatDateTime(utcNow(), 'dd')))
+        ), 
+    'yyyy-MM-dd'
+)
+
+// first sunday of current month
+formatDateTime(
+    addDays(
+        startOfMonth(utcNow()), 
+        sub(7, dayOfWeek(startOfMonth(utcNow())))
+    ), 
+    'yyyy-MM-dd'
+)
+
+//last  sunday  of current month
+formatDateTime(
+    addDays(
+        addDays(
+            startOfMonth(addToTime(utcNow(), 1, 'Month')), 
+            -1
+        ), 
+        sub(0, dayOfWeek(addDays(startOfMonth(addToTime(utcNow(), 1, 'Month')), -1)))
+    ), 
+    'yyyy-MM-dd'
+)
