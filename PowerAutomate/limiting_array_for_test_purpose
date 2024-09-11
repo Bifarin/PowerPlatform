@@ -1,0 +1,8 @@
+// use have to your the array constructor [] if you are using the first function to return a single element in an array
+[
+  @{first(outputs('List_rows_(List_All_Staff_Members_With_People_Under_Them)')?['body/value'])}
+]
+
+
+// contrarily take function doesnt need an array constructor
+@{take(outputs('List_rows_(List_All_Staff_Members_With_People_Under_Them)')?['body/value'], 5)}
