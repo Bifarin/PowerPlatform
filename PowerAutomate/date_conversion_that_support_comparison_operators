@@ -1,0 +1,1 @@
+formatDateTime(convertTimeZone(<outputs('Compose_(First_FY_Day_Mapping)_2'>), 'UTC', 'AUS Eastern Standard Time'), 'yyyy-MM-dd')
