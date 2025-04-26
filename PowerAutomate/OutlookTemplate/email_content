@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .highlight {
+            font-weight: bold;
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 15px;
+            background-color: #0073e6;
+            color: #ffffff;
+            text-decoration: underline;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- <p><strong>Subject:</strong> Reminder: Conflict of Interest (COI) Re-Declaration for Contract (@{triggerOutputs()?['body/sd99_contractnumber']})</p> -->
+
+        <p>Dear Contract Manager,</p>
+
+        <p>This is a reminder that the Conflict of Interest (COI) re-declaration for contract <strong>(@{triggerOutputs()?['body/sd99_contractnumber']})</strong> is due. 
+        This process ensures compliance with NSW Corporate Commercial Policies, which require a yearly declaration for multi-year contracts.</p>
+
+        <h3>Action Required:</h3>
+        <ol>
+            <li><strong>Review the Stakeholder List</strong> – Ensure all relevant parties are included and remove any outdated contacts.</li>
+            <li><strong>Request Stakeholder Re-Declaration</strong> – Once the list is updated, request the re-declaration by clicking the 
+                <strong>"Request Signature"</strong> button on the <strong>Manage Stakeholder</strong> page.</li>
+        </ol>
+
+        <!-- <p>You can access the contract record and update the stakeholder list under the <strong>Management</strong> tab:</p>
+        <p><a href="@{variables('v_direct_link')}" class="button">Review Contract Record</a></p> -->
+
+        <p>
+            <a href="@{variables('v_direct_link')}"
+                style="display: inline-block; padding: 10px 15px; background-color: #0078D4; color: #ffffff; text-decoration: underline; border-radius: 5px;">
+                Review Contract Record
+            </a>
+        </p>
+
+        <h3>Important Note:</h3>
+        <p>If you have already sent out the <strong>Declaration Request</strong>, you are receiving this email because at least one stakeholder 
+        has not yet completed their declaration. Please follow up with the relevant contacts to ensure this process is finalized.</p>
+
+        <p>Best regards,<br>
+        <strong>GTP Commercial Team</strong></p>
+    </div>
+</body>
+</html>
