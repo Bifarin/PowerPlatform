@@ -1,0 +1,1 @@
+@{parameters('Environment - URL No Slash (sd99_EnvironmentURL)')}/main.aspx?appid=@{parameters('Commercial Management App GUID (sd99_CommercialAppID)')}&pagetype=entityrecord&etn=sd99_gtpcontracts&id=@{triggerOutputs()?['body/sd99_gtpcontractsid']}
