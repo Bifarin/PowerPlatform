@@ -105,3 +105,30 @@ Peek code Step 6: Create table
         "tableId": null
     }
 }
+
+Peek code Step 7: Apply to each -> Add a row into a table
+
+{
+    "inputs": {
+        "host": {
+            "connectionName": "shared_excelonlinebusiness",
+            "operationId": "AddRowV2",
+            "apiId": "/providers/Microsoft.PowerApps/apis/shared_excelonlinebusiness"
+        },
+        "parameters": {
+            "source": "sites/nswgov.sharepoint.com,227cc364-7dc5-4237-9083-b08c3ffcccfb,f1dc2863-e70d-465c-8429-ae8d2b372843",
+            "drive": "b!ZMN8IsV9N0KQg7CMP_zM-2Mo3PEN51xGhCmujSs3KEOMETeaWxfKT7ZKbnSQLRy1",
+            "file": "@body('Send_an_HTTP_request_to_SharePoint:_Create_XLSX_File')['d']['UniqueId']",
+            "table": "tblGTPAccountProduct",
+            "item": "@items('Apply_to_each_2')"
+        },
+        "authentication": {
+            "type": "Raw",
+            "value": "@json(decodeBase64(triggerOutputs().headers['X-MS-APIM-Tokens']))['$ConnectionKey']"
+        }
+    },
+    "metadata": {
+        "operationMetadataId": "511db250-fa9e-4e1d-8f3c-7f658b82bab4",
+        "tableId": "tblGTPAccountProduct"
+    }
+}
