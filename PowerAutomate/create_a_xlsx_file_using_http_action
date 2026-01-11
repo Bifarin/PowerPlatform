@@ -1,0 +1,23 @@
+Action name:Send an HTTP request to SharePoint
+Peek code:
+{
+    "inputs": {
+        "host": {
+            "connectionName": "shared_sharepointonline",
+            "operationId": "HttpRequest",
+            "apiId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline"
+        },
+        "parameters": {
+            "dataset": "https://nswgov.sharepoint.com/sites/GTPAppTestSite",
+            "parameters/method": "POST",
+            "parameters/uri": "_api/web/GetFolderByServerRelativeUrl('Shared%20Documents')/Files/add(url='GTPAccountProduct Report 1.1.xlsx',overwrite=true)\n"
+        },
+        "authentication": {
+            "type": "Raw",
+            "value": "@json(decodeBase64(triggerOutputs().headers['X-MS-APIM-Tokens']))['$ConnectionKey']"
+        }
+    },
+    "metadata": {
+        "operationMetadataId": "9dc421f0-8580-489d-a2c7-1b57af7cb71c"
+    }
+}
