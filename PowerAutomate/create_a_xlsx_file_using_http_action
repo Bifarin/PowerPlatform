@@ -1,5 +1,62 @@
+Step | Action name
+
+
 Action name:Send an HTTP request to SharePoint
-Peek code:
+Peek code Step 1 | Initialize variable:
+{
+    "inputs": {
+        "variables": [
+            {
+                "name": "v_array_of_object",
+                "type": "array",
+                "value": []
+            }
+        ]
+    },
+    "metadata": {
+        "operationMetadataId": "0a359a41-0244-48f3-8a97-e89c542e8943"
+    }
+}
+
+Peek code Step 2 | Compose
+{
+    "inputs": {
+        "Account Name": "@{outputs('Get_a_row_by_ID_(Account)')?['body/name']}",
+        "ABN": "@{outputs('Get_a_row_by_ID_(Account)')?['body/sd99_abn']}",
+        "Contract Product And Service": "@{outputs('Compose_(Join_Product_Service)')}",
+        "Provides this service": "@{outputs('Compose_(Join_Product_Provider)')}",
+        "Lastest Create Contract Date": "@{outputs('Compose_(Latest_Create_On)')}",
+        "GUID": "@{outputs('Get_a_row_by_ID_(Account)')?['body/accountid']}"
+    },
+    "metadata": {
+        "operationMetadataId": "43a6d05a-edd5-4cfb-a8d7-c6507f1e68e6"
+    }
+}
+
+Peek code Step 3 | Append to arrray variable
+{
+    "inputs": {
+        "name": "v_array_of_object",
+        "value": "@outputs('Compose_(Current_Record_Detail)')"
+    },
+    "metadata": {
+        "operationMetadataId": "8bf048cf-d6a5-4dfa-806d-36f02ee34ebc"
+    }
+}
+
+Peek code Step 4 | Create CSV table
+{
+    "inputs": {
+        "from": "@variables('v_array_of_object')",
+        "format": "CSV"
+    },
+    "metadata": {
+        "operationMetadataId": "07354699-8bc7-4e9c-80b7-951043440ea6"
+    }
+}
+
+
+Peek code Step 5 | Send an HTTP request to SharePoint
 {
     "inputs": {
         "host": {
@@ -19,5 +76,32 @@ Peek code:
     },
     "metadata": {
         "operationMetadataId": "9dc421f0-8580-489d-a2c7-1b57af7cb71c"
+    }
+}
+
+Peek code Step 6: Create table
+{
+    "inputs": {
+        "host": {
+            "connectionName": "shared_excelonlinebusiness",
+            "operationId": "CreateTable",
+            "apiId": "/providers/Microsoft.PowerApps/apis/shared_excelonlinebusiness"
+        },
+        "parameters": {
+            "source": "sites/nswgov.sharepoint.com,227cc364-7dc5-4237-9083-b08c3ffcccfb,f1dc2863-e70d-465c-8429-ae8d2b372843",
+            "drive": "b!ZMN8IsV9N0KQg7CMP_zM-2Mo3PEN51xGhCmujSs3KEOMETeaWxfKT7ZKbnSQLRy1",
+            "file": "@body('Send_an_HTTP_request_to_SharePoint:_Create_XLSX_File')['d']['UniqueId']",
+            "table/Range": "A1",
+            "table/TableName": "tblGTPAccountProduct",
+            "table/ColumnsNames": "@first(split(body('Create_CSV_table_(Get_Header)'), decodeUriComponent('%0A')))"
+        },
+        "authentication": {
+            "type": "Raw",
+            "value": "@json(decodeBase64(triggerOutputs().headers['X-MS-APIM-Tokens']))['$ConnectionKey']"
+        }
+    },
+    "metadata": {
+        "operationMetadataId": "400628e9-f01d-43c9-819e-cc6b422b86a4",
+        "tableId": null
     }
 }
