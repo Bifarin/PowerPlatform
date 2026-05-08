@@ -1,0 +1,77 @@
+https://chrismvnro.com/an-easier-way-to-find-flow-runs-for-frequently-running-power-automate-flows/
+const flowid = '1bffb20a-c920-f111-8341-7c1e528a0669';
+
+// LOCAL TIME INPUTS
+const localStart = '2026-04-23 08:15';
+const localEnd = '2026-04-23 10:15';
+
+// Convert local time -> ISO UTC format
+const startDateTime = new Date(localStart).toISOString();
+const endDateTime = new Date(localEnd).toISOString();
+
+console.log(startDateTime);
+console.log(endDateTime);
+
+const fetchXml =
+  "?fetchXml=" +
+  encodeURIComponent(`
+    <fetch top='50'>
+      <entity name='flowrun'>
+
+        <attribute name='flowrunid' />
+        <attribute name='name' />
+        <attribute name='starttime' />
+        <attribute name='workflowname' />
+
+        <filter type='and'>
+
+          <condition
+            attribute='workflowid'
+            operator='eq'
+            value='${flowid}'
+          />
+
+          <condition
+            attribute='starttime'
+            operator='ge'
+            value='${startDateTime}'
+          />
+
+          <condition
+            attribute='starttime'
+            operator='le'
+            value='${endDateTime}'
+          />
+
+        </filter>
+
+        <order attribute='starttime' descending='true' />
+
+      </entity>
+    </fetch>
+  `);
+
+window.top.Xrm.WebApi.retrieveMultipleRecords("flowrun", fetchXml).then(
+
+    function success(result) {
+
+        console.log("Runs Found:", result.entities.length);
+
+        result.entities.forEach(r => {
+
+            console.log({
+                flowrunid: r.flowrunid,
+                name: r.name,
+                workflowname: r.workflowname,
+                starttime: new Date(r.starttime).toLocaleString()
+            });
+
+        });
+
+    },
+
+    function(error) {
+        console.log(error.message);
+    }
+
+);
