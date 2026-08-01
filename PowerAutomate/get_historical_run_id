@@ -75,3 +75,44 @@ window.top.Xrm.WebApi.retrieveMultipleRecords("flowrun", fetchXml).then(
     }
 
 );
+
+
+---
+---
+the above works but doesnt return the flow name
+---
+---
+-- below returns the flow name
+
+
+const flowid = "2406854e-5222-f011-8c4e-6045bd9dbfeb";
+const localStart = "2026-07-23 08:15";
+const localEnd = "2026-08-23 10:15";
+const startDateTime = new Date(localStart).toISOString();
+const endDateTime = new Date(localEnd).toISOString();
+
+console.log(startDateTime);
+console.log(endDateTime);
+
+const query =
+    "?$select=flowrunid,name,starttime,_workflow_value" +
+    "&$filter=_workflow_value eq " + flowid +
+    " and starttime ge " + startDateTime +
+    " and starttime le " + endDateTime;
+
+window.top.Xrm.WebApi.retrieveMultipleRecords("flowrun", query)
+.then(function(result){
+    console.log("Runs Found:", result.entities.length);
+    result.entities.forEach(function(r){
+        console.log({
+            flowrunid: r.flowrunid,
+            runname: r.name,
+            workflowid: r._workflow_value,
+            workflowname: r["_workflow_value@OData.Community.Display.V1.FormattedValue"],
+            starttime: new Date(r.starttime).toLocaleString()
+        });
+    });
+})
+.catch(function(err){
+    console.error(err);
+});
