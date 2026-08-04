@@ -1,0 +1,16 @@
+//value been the guid of the object
+
+<fetch>
+  <entity name="solutioncomponent">
+    <attribute name="solutionid" />
+    <attribute name="componenttype" />
+    <filter>
+      <condition attribute="objectid" operator="eq" value="55a225a1-2d8e-f111-8077-3833c5c9ff2e" />
+    </filter>
+    <link-entity name="solution" from="solutionid" to="solutionid" alias="sol">
+      <attribute name="friendlyname" />
+      <attribute name="uniquename" />
+      <attribute name="ismanaged" />
+    </link-entity>
+  </entity>
+</fetch>
