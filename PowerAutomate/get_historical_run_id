@@ -84,34 +84,55 @@ the above works but doesnt return the flow name
 ---
 -- below returns the flow name
 
+//flowid is the workflowid not the flow guid in the automation url (can be found in the flow run table)
+const flowid = "10d58b69-2cae-f011-bbd3-7ced8d348f6a";
+const localStart = "2026-09-21 08:15";
+const localEnd = "2026-09-23 00:15";
 
-const flowid = "2406854e-5222-f011-8c4e-6045bd9dbfeb";
-const localStart = "2026-07-23 08:15";
-const localEnd = "2026-08-23 10:15";
+// Set to a value to filter, or null/"" to return all statuses
+// const filterStatus = "Failed";
+const filterStatus = null;
+
 const startDateTime = new Date(localStart).toISOString();
 const endDateTime = new Date(localEnd).toISOString();
 
-console.log(startDateTime);
-console.log(endDateTime);
+console.log("Start:", startDateTime);
+console.log("End:", endDateTime);
+
+// Build filter conditions
+const filters = [
+    `_workflow_value eq ${flowid}`,
+    `starttime ge ${startDateTime}`,
+    `starttime le ${endDateTime}`
+];
+
+// Only add status filter when specified
+if (filterStatus) {
+    filters.push(`status eq '${filterStatus}'`);
+}
 
 const query =
-    "?$select=flowrunid,name,starttime,_workflow_value" +
-    "&$filter=_workflow_value eq " + flowid +
-    " and starttime ge " + startDateTime +
-    " and starttime le " + endDateTime;
+    `?$select=flowrunid,name,status,starttime,_workflow_value` +
+    `&$filter=${filters.join(" and ")}`;
+
+console.log("Query:", query);
 
 window.top.Xrm.WebApi.retrieveMultipleRecords("flowrun", query)
 .then(function(result){
+
     console.log("Runs Found:", result.entities.length);
+
     result.entities.forEach(function(r){
         console.log({
             flowrunid: r.flowrunid,
             runname: r.name,
+            status: r.status,
             workflowid: r._workflow_value,
             workflowname: r["_workflow_value@OData.Community.Display.V1.FormattedValue"],
             starttime: new Date(r.starttime).toLocaleString()
         });
     });
+
 })
 .catch(function(err){
     console.error(err);
